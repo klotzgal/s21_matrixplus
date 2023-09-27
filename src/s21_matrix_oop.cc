@@ -2,17 +2,17 @@
 
 // Конструкторы и деструктор
 S21Matrix::S21Matrix() : rows_(0), cols_(0), matrix_(nullptr) {
-  std::cout << "Дефолтный конструктор\n";
+  // std::cout << "Дефолтный конструктор\n";
 }
 
 S21Matrix::S21Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
-  std::cout << "2 конструктор ";
+  // std::cout << "2 конструктор ";
   if (rows < 0 || cols < 0) {
     throw std::invalid_argument("Invalid matrix");
   } else {
     matrix_ = new double[rows_ * cols_]();
-    std::cout << "rows = " << rows_ << ", cols = " << cols_
-              << ", matrix = " << matrix_ << "\n";
+    // std::cout << "rows = " << rows_ << ", cols = " << cols_
+    //           << ", matrix = " << matrix_ << "\n";
   }
 }
 
@@ -20,19 +20,19 @@ S21Matrix::S21Matrix(const S21Matrix& other)
     : rows_(other.rows_),
       cols_(other.cols_),
       matrix_(new double[rows_ * cols_]()) {
-  std::cout << "Конструктор копирования\n";
+  // std::cout << "Конструктор копирования\n";
   std::copy(other.matrix_, other.matrix_ + rows_ * cols_, matrix_);
 }
 
 S21Matrix::S21Matrix(S21Matrix&& other) noexcept
     : rows_(other.rows_), cols_(other.cols_), matrix_(other.matrix_) {
-  std::cout << "Конструктор перемещения\n";
+  // std::cout << "Конструктор перемещения\n";
   other.rows_ = other.cols_ = 0;
   other.matrix_ = nullptr;
 }
 
 S21Matrix::~S21Matrix() {
-  std::cout << "Деструктор\n";
+  // std::cout << "Деструктор\n";
   Clear();
 }
 
@@ -87,6 +87,12 @@ void S21Matrix::SumMatrix(const S21Matrix& other) {
   }
 }
 
+
+/**
+ * @brief 
+ * 
+ * @param other 
+ */
 void S21Matrix::SubMatrix(const S21Matrix& other) {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
     throw std::invalid_argument("Not equal sizes");

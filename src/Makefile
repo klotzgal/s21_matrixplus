@@ -16,7 +16,7 @@ END:=\033[0m
 ifeq ($(OS), Darwin)
 	FLAGS_PLATFORM =-lgtest
 else
-	FLAGS_PLATFORM =-lgtest -lrt -lm -lpthread -g
+	FLAGS_PLATFORM =-lgtest -lrt -lm -lpthread
 endif
 
 all : main
