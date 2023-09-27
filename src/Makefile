@@ -1,7 +1,8 @@
 .PHONY: all clean test s21_matrix_oop.a  gcov_report main
 OS :=$(shell uname -s)
 NAME :=$(shell whoami)
-FLAGS:=-std=c++17 -Wall -Wextra -Werror -g
+CC=gcc
+FLAGS:=-lstdc++ -std=c++17 -Wall -Wextra -Werror -g
 LIB:=s21_matrix_oop
 PATH_TO_OBJ=ObjectFiles
 TEST:=Tests/test
@@ -13,38 +14,38 @@ RED:=\033[91m
 END:=\033[0m
 
 ifeq ($(OS), Darwin)
-	FLAGS_PLATFORM =-lcheck
+	FLAGS_PLATFORM =-lgtest
 else
-	FLAGS_PLATFORM =-lcheck -lsubunit -lrt -lm -lpthread -g
+	FLAGS_PLATFORM =-lgtest -lrt -lm -lpthread -g
 endif
 
 all : main
 
 clean :
 	@echo "$(BLUE)------------------CLEAN------------------$(END)"
-	rm -rf report test.info gcov f test main *.a *.o  # *.{a,o,dSYM,out,g*} 
+	@rm -rf report test.info gcov f test main *.a *.o  */*.o */*.a */*/*.o # *.{a,o,dSYM,out,g*} 
 # ls -la *
 
-test : clean s21_matrix_oop.a $(TEST).o
+test : clean $(LIB).a $(TEST).o
 	@echo "$(BLUE)--------------RUNNING TESTS--------------$(END)"
-	@g++ $(FLAGS) $(TEST).o -l check -L. s21_matrix_oop.a $(FLAGS_PLATFORM) -o test
+	@$(CC) $(PATH_TO_OBJ)/$(TEST).o -L. $(PATH_TO_OBJ)/$(LIB).a -o test $(FLAGS_PLATFORM) $(FLAGS)
 	@./test
 	@echo "$(BLUE)-----------------------------------------$(END)"
 
-$(TEST).o : $(TEST).c
-	@g++ $(FLAGS) -c $(TEST).c -o $(TEST).o
+$(TEST).o : $(TEST).cc
+	@$(CC) $(FLAGS) -c $(TEST).cc -o $(PATH_TO_OBJ)/$@
 
 # библиотека для теста
-$(LIB).a : $(LIB).cpp
+$(LIB).a : $(LIB).cc
 	@echo "$(BLUE)--------------MATRIX LIBRARY-------------$(END)"
-	@g++ -g -c $(LIB).cpp -o $(PATH_TO_OBJ)/$(LIB).o
+	@$(CC) -g -c $^ -o $(PATH_TO_OBJ)/$(LIB).o
 	@ar rc $(PATH_TO_OBJ)/$@ $(PATH_TO_OBJ)/$(LIB).o
-	@ranlib $(PATH_TO_OBJ)/s21_matrix_oop.a
+	@ranlib $(PATH_TO_OBJ)/$@
 
 #gcov
 gcov_report : clean lcov $(TEST).o gs21_matrix_oop.a
 	@echo "$(BLUE)---------------GCOV REPORT---------------$(END)"
-	@g++ $(FLAGS) $(GCOV) $(TEST).o -l check -L. s21_matrix_oop.a $(FLAGS_PLATFORM) -o gcov
+	@$(CC) $(FLAGS) $(GCOV) $(TEST).o -l check -L. s21_matrix_oop.a $(FLAGS_PLATFORM) -o gcov
 	@./gcov gs21_matrix_oop.a 
 	@gcov gs21_matrix_oop.a
 # ~/goinfre/homebrew/bin/
@@ -56,7 +57,7 @@ gcov_report : clean lcov $(TEST).o gs21_matrix_oop.a
 # библиотека для отчета
 gs21_matrix_oop.a : libs/list_lib.c libs/calc.c
 	@echo "$(BLUE)--------------MATRIX LIBRARY-------------$(END)"
-	@g++ $(GCOV) -g -c libs/list_lib.c libs/calc.c
+	@$(CC) $(GCOV) -g -c libs/list_lib.c libs/calc.c
 	@ar rc s21_matrix_oop.a list_lib.o calc.o
 	@ranlib s21_matrix_oop.a
 
@@ -90,8 +91,8 @@ check:
 	@echo "$(BLUE)-----------------------------------------$(END)"
 
 main: main.o $(LIB).a
-	g++ $(FLAGS) $(PATH_TO_OBJ)/main.o -o main
-
-main.o:
-	g++ $(FLAGS) -c main.cpp -o $(PATH_TO_OBJ)/$@
+	@$(CC) $(PATH_TO_OBJ)/main.o -L. $(PATH_TO_OBJ)/$(LIB).a -o main $(FLAGS) 
+	@./main
+main.o: main.cc
+	@$(CC) -c $^ -o $(PATH_TO_OBJ)/$@ $(FLAGS)
 

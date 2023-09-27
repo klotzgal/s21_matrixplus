@@ -58,3 +58,4 @@ dkms.conf
 #My
 *.env
 *main
+.vscode
