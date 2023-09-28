@@ -133,6 +133,7 @@ void S21Matrix::PrintMatrix() const {
     }
     std::cout << "\n";
   }
+  std::cout << "____________________________\n";
 }
 
 bool S21Matrix::EqMatrix(const S21Matrix& other) const noexcept {
@@ -195,8 +196,8 @@ void S21Matrix::MulMatrix(const S21Matrix& other) {
       }
     }
   }
-  // Clear();
-  // *this = std::move(tmp);
+  Clear();
+  *this = std::move(tmp);
 }
 
 // Перегрузки операторов
@@ -234,15 +235,42 @@ S21Matrix S21Matrix::operator*(const double num) const {
   return res;
 }
 
-
 S21Matrix operator*(double num, const S21Matrix& other) {
   S21Matrix res(other);
   res.MulNumber(num);
   return res;
 }
 
-bool S21Matrix::operator==(const S21Matrix& other) const {
+bool S21Matrix::operator==(const S21Matrix& other) const noexcept {
   return (*this).EqMatrix(other);
+}
+
+// lv=lv
+S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
+  if (this != &other) {
+    S21Matrix res(other);
+    rows_ = other.GetRow();
+    cols_ = other.GetColumn();
+    Clear();
+    matrix_ = new double[rows_ * cols_]();
+    for (size_t i = 0; i < rows_; i++) {
+      for (size_t j = 0; j < cols_; j++) {
+        (*this)(i, j) = other(i, j);
+      }
+    }
+  }
+  return *this;
+}
+
+S21Matrix& S21Matrix::operator=(S21Matrix&& other) {
+  if (this != &other) {
+    rows_ = cols_ = 0;
+    Clear();
+    std::swap(this->rows_, other.rows_);
+    std::swap(this->cols_, other.cols_);
+    std::swap(this->matrix_, other.matrix_);
+  }
+  return *this;
 }
 
 // Вспомогательные приватные методы
@@ -251,4 +279,5 @@ void S21Matrix::Clear() {
   if (matrix_) {
     delete[] matrix_;
   }
+  matrix_ = nullptr;
 }

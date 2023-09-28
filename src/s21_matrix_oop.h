@@ -50,7 +50,9 @@ class S21Matrix {
   S21Matrix operator*(const S21Matrix& other) const;
   S21Matrix operator*(const double num) const;
   friend S21Matrix operator*(double num, const S21Matrix& other);
-  bool S21Matrix::operator==(const S21Matrix& other) const;
+  bool operator==(const S21Matrix& other) const noexcept;
+  S21Matrix& operator=(const S21Matrix& other);
+  S21Matrix& operator=(S21Matrix&& other);
 };
 
 #endif  // _S21_MATRIX_OOP_H_
