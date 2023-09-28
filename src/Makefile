@@ -77,9 +77,9 @@ ifeq ("", "$(wildcard ~/goinfre/homebrew)")
 #   curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh
 endif
 
-valgrind: clean f
+valgrind: clean test
 	@echo "$(BLUE)----------------VALGRIND-----------------$(END)"
-	@CK_FORK=no valgrind --trace-children=yes --track-fds=yes --track-origins=yes --leak-check=full --show-leak-kinds=all --verbose --log-file=valgrind.txt ./f
+	@CK_FORK=no valgrind --trace-children=yes --track-fds=yes --track-origins=yes --leak-check=full --show-leak-kinds=all --verbose --log-file=valgrind.txt ./test
 	@echo "$(BLUE)-----------------------------------------$(END)"
 
 check: 

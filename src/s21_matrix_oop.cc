@@ -1,18 +1,45 @@
 #include "s21_matrix_oop.h"
 
 // Конструкторы и деструктор
-S21Matrix::S21Matrix() : rows_(0), cols_(0), matrix_(nullptr) {
+S21Matrix::S21Matrix() : rows_(1), cols_(1), matrix_(new double()) {
   // std::cout << "Дефолтный конструктор\n";
 }
 
 S21Matrix::S21Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
   // std::cout << "2 конструктор ";
-  if (rows < 0 || cols < 0) {
-    throw std::invalid_argument("Invalid matrix");
-  } else {
-    matrix_ = new double[rows_ * cols_]();
-    // std::cout << "rows = " << rows_ << ", cols = " << cols_
-    //           << ", matrix = " << matrix_ << "\n";
+  if (rows < 1 || cols < 1) {
+    throw std::invalid_argument(
+        "Invalid matrix: Rows and columns must be non-negative.");
+  }
+  matrix_ = new double[rows_ * cols_]();
+  // std::cout << "rows = " << rows_ << ", cols = " << cols_
+  //           << ", matrix = " << matrix_ << "\n";
+}
+
+S21Matrix::S21Matrix(std::initializer_list<double> init) {
+  // std::cout << "initializer_list конструктор\n";
+  if (init.size() < 2) {
+    throw std::invalid_argument(
+        "Invalid matrix: Initialization list must contain at least two "
+        "elements.");
+  }
+
+  auto it = init.begin();
+  rows_ = *it++;
+  cols_ = *it++;
+  if (rows_ < 1 || cols_ < 1) {
+    throw std::invalid_argument(
+        "Invalid matrix: Rows and columns must be non-negative.");
+  }
+
+  matrix_ = new double[rows_ * cols_]();
+
+  for (size_t i = 0; i < rows_; i++) {
+    for (size_t j = 0; j < cols_; j++) {
+      if (it != init.end()) {
+        (*this)(i, j) = *it++;
+      }
+    }
   }
 }
 
@@ -33,24 +60,72 @@ S21Matrix::S21Matrix(S21Matrix&& other) noexcept
 
 S21Matrix::~S21Matrix() {
   // std::cout << "Деструктор\n";
+  rows_ = cols_ = 0;
   Clear();
 }
 
-// Операции
+//  Геттеры и сеттеры
+
 double S21Matrix::GetElement(int i, int j) const {
-  if (rows_ < i || cols_ < j || i < 0 || j < 0) {
+  if (rows_ < i || cols_ < j || i < 1 || j < 1) {
     throw std::invalid_argument("Out of range");
   }
   return (*this)(i, j);
 }
 
 void S21Matrix::SetElement(int i, int j, double value) {
-  if (rows_ < i || cols_ < j || i < 0 || j < 0) {
+  if (rows_ < i || cols_ < j || i < 1 || j < 1) {
     throw std::invalid_argument("Out of range");
   }
   (*this)(i, j) = value;
 }
 
+double S21Matrix::GetRow() const { return rows_; }
+
+void S21Matrix::SetRow(int row) {
+  if (row < 1) {
+    throw std::invalid_argument(
+        "Invalid Matrix: the number of rows should be a natural number");
+  }
+
+  double* tmp = new double[row * cols_]();
+
+  for (size_t i = 0; i < row; i++) {
+    for (size_t j = 0; j < cols_; j++) {
+      if (i < rows_) {
+        tmp[i * cols_ + j] = (*this)(i, j);
+      }
+    }
+  }
+  Clear();
+  rows_ = row;
+  matrix_ = tmp;
+  // tmp = nullptr;
+}
+
+double S21Matrix::GetColumn() const { return cols_; }
+
+void S21Matrix::SetColumn(int column) {
+  if (column < 1) {
+    throw std::invalid_argument(
+        "Invalid Matrix: the number of columns should be a natural number");
+  }
+
+  double* tmp = new double[rows_ * column]();
+
+  for (size_t i = 0; i < rows_; i++) {
+    for (size_t j = 0; j < column; j++) {
+      if (j < cols_) {
+        tmp[i * column + j] = (*this)(i, j);
+      }
+    }
+  }
+  Clear();
+  cols_ = column;
+  matrix_ = tmp;
+}
+
+// Операции
 void S21Matrix::PrintMatrix() const {
   for (size_t i = 0; i < rows_; i++) {
     for (size_t j = 0; j < cols_; j++) {
@@ -87,12 +162,6 @@ void S21Matrix::SumMatrix(const S21Matrix& other) {
   }
 }
 
-
-/**
- * @brief 
- * 
- * @param other 
- */
 void S21Matrix::SubMatrix(const S21Matrix& other) {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
     throw std::invalid_argument("Not equal sizes");
@@ -113,38 +182,72 @@ void S21Matrix::MulNumber(const double num) {
   }
 }
 
-// void S21Matrix::MulMatrix(const S21Matrix& other) {
-//   if (cols_ != other.rows_) {
-//     throw std::invalid_argument("Not valid sizes");
-//   }
+void S21Matrix::MulMatrix(const S21Matrix& other) {
+  if (cols_ != other.rows_) {
+    throw std::invalid_argument("Invalid Matrix: not valid sizes");
+  }
 
-//   S21Matrix tmp(rows_, other.cols_);
-//   for (size_t i = 0; i < tmp.rows_; i++) {
-//     for (size_t j = 0; j < tmp.cols_; j++) {
-//       for (size_t k = 0; k < cols_; k++) {
-//         tmp(i, j) += (*this)(i, k) * other(k, j);
-//       }
-//     }
-//   }
-//   Clear();
-//   *this = std::move(tmp);
-// }
+  S21Matrix tmp(rows_, other.cols_);
+  for (size_t i = 0; i < tmp.rows_; i++) {
+    for (size_t j = 0; j < tmp.cols_; j++) {
+      for (size_t k = 0; k < cols_; k++) {
+        tmp(i, j) += (*this)(i, k) * other(k, j);
+      }
+    }
+  }
+  // Clear();
+  // *this = std::move(tmp);
+}
 
 // Перегрузки операторов
-double& S21Matrix::operator()(int i, int j) & {
+double& S21Matrix::operator()(int i, int j) {
   // std::cout << "\n Оператор(" << i << ", " << j << ")\n";
   return matrix_[i * cols_ + j];
 }
 
-double S21Matrix::operator()(int i, int j) const& {
-  std::cout << "\nconst Оператор(" << i << ", " << j << ")\n";
+double S21Matrix::operator()(int i, int j) const {
+  // std::cout << "\nconst Оператор(" << i << ", " << j << ")\n";
   return matrix_[i * cols_ + j];
+}
+
+S21Matrix S21Matrix::operator+(const S21Matrix& other) const {
+  S21Matrix res(*this);
+  res.SumMatrix(other);
+  return res;
+}
+
+S21Matrix S21Matrix::operator-(const S21Matrix& other) const {
+  S21Matrix res(*this);
+  res.SubMatrix(other);
+  return res;
+}
+
+S21Matrix S21Matrix::operator*(const S21Matrix& other) const {
+  S21Matrix res(*this);
+  res.MulMatrix(other);
+  return res;
+}
+
+S21Matrix S21Matrix::operator*(const double num) const {
+  S21Matrix res(*this);
+  res.MulNumber(num);
+  return res;
+}
+
+
+S21Matrix operator*(double num, const S21Matrix& other) {
+  S21Matrix res(other);
+  res.MulNumber(num);
+  return res;
+}
+
+bool S21Matrix::operator==(const S21Matrix& other) const {
+  return (*this).EqMatrix(other);
 }
 
 // Вспомогательные приватные методы
 
 void S21Matrix::Clear() {
-  rows_ = cols_ = 0;
   if (matrix_) {
     delete[] matrix_;
   }

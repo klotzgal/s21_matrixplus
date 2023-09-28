@@ -1,167 +1,214 @@
-==95893== Memcheck, a memory error detector
-==95893== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==95893== Using Valgrind-3.18.1-42b08ed5bd-20211015 and LibVEX; rerun with -h for copyright info
-==95893== Command: ./test
-==95893== Parent PID: 22567
-==95893== 
---95893-- 
---95893-- Valgrind options:
---95893--    --trace-children=yes
---95893--    --track-fds=yes
---95893--    --track-origins=yes
---95893--    --leak-check=full
---95893--    --show-leak-kinds=all
---95893--    --verbose
---95893--    --log-file=valgrind.txt
---95893-- Contents of /proc/version:
---95893--   Linux version 6.2.0-33-generic (buildd@lcy02-amd64-073) (x86_64-linux-gnu-gcc-11 (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #33~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  7 10:33:52 UTC 2
---95893-- 
---95893-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand-rdseed
---95893-- Page sizes: currently 4096, max supported 4096
---95893-- Valgrind library directory: /usr/libexec/valgrind
---95893-- Reading syms from /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test
---95893-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
---95893--   Considering /usr/lib/debug/.build-id/31/46e5a5e66e1fd6ab59a39e486a9d246bc675c0.debug ..
---95893--   .. build-id is valid
---95893-- Reading syms from /usr/libexec/valgrind/memcheck-amd64-linux
---95893--    object doesn't have a symbol table
---95893--    object doesn't have a dynamic symbol table
---95893-- Scheduler: using generic scheduler lock implementation.
---95893-- Reading suppressions file: /usr/libexec/valgrind/default.supp
-==95893== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-95893-by-klotzgal-on-???
-==95893== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-95893-by-klotzgal-on-???
-==95893== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-95893-by-klotzgal-on-???
-==95893== 
-==95893== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==95893== don't want to do, unless you know exactly what you're doing,
-==95893== or are doing some strange experiment):
-==95893==   /usr/bin/vgdb --pid=95893 ...command...
-==95893== 
-==95893== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==95893==   /path/to/gdb ./test
-==95893== and then give GDB the following command
-==95893==   target remote | /usr/bin/vgdb --pid=95893
-==95893== --pid is optional if only one valgrind process is running
-==95893== 
---95893-- REDIR: 0x402aaa0 (ld-linux-x86-64.so.2:strlen) redirected to 0x580bcec2 (???)
---95893-- REDIR: 0x402a870 (ld-linux-x86-64.so.2:index) redirected to 0x580bcedc (???)
---95893-- Reading syms from /usr/libexec/valgrind/vgpreload_core-amd64-linux.so
---95893--    object doesn't have a symbol table
---95893-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so
---95893--    object doesn't have a symbol table
-==95893== WARNING: new redirection conflicts with existing -- ignoring it
---95893--     old: 0x0402aaa0 (strlen              ) R-> (0000.0) 0x580bcec2 ???
---95893--     new: 0x0402aaa0 (strlen              ) R-> (2007.0) 0x0484ee30 strlen
---95893-- REDIR: 0x4027280 (ld-linux-x86-64.so.2:strcmp) redirected to 0x484fcd0 (strcmp)
---95893-- REDIR: 0x402b000 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4853840 (mempcpy)
---95893-- Reading syms from /usr/lib/x86_64-linux-gnu/libm.so.6
---95893--   Considering /usr/lib/debug/.build-id/22/1c30924bca215d523f04ea0aeba15703011edc.debug ..
---95893--   .. build-id is valid
---95893-- Reading syms from /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
---95893--    object doesn't have a symbol table
---95893-- Reading syms from /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
---95893--    object doesn't have a symbol table
---95893-- Reading syms from /usr/lib/x86_64-linux-gnu/libc.so.6
---95893--   Considering /usr/lib/debug/.build-id/22/9b7dc509053fe4df5e29e8629911f0c3bc66dd.debug ..
---95893--   .. build-id is valid
-==95893== WARNING: new redirection conflicts with existing -- ignoring it
---95893--     old: 0x04c4ace0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
---95893--     new: 0x04c4ace0 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
-==95893== WARNING: new redirection conflicts with existing -- ignoring it
---95893--     old: 0x04c4ace0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
---95893--     new: 0x04c4ace0 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
-==95893== WARNING: new redirection conflicts with existing -- ignoring it
---95893--     old: 0x04c4ace0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
---95893--     new: 0x04c4ace0 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
-==95893== WARNING: new redirection conflicts with existing -- ignoring it
---95893--     old: 0x04c4ace0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
---95893--     new: 0x04c4ace0 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
---95893-- REDIR: 0x4c4d7a0 (libc.so.6:strnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4da60 (libc.so.6:strpbrk) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4d360 (libc.so.6:strcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c6bd50 (libc.so.6:wcsnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4e750 (libc.so.6:memset) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c6a5c0 (libc.so.6:wcslen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4ec90 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c6a3f0 (libc.so.6:wcschr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4d2e0 (libc.so.6:index) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4d9e0 (libc.so.6:rindex) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4e620 (libc.so.6:memmove) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
-==95893== Preferring higher priority redirection:
---95893--     old: 0x04d45980 (__memcpy_avx_unalign) R-> (2018.0) 0x04850f90 __memcpy_avx_unaligned_erms
---95893--     new: 0x04d45980 (__memcpy_avx_unalign) R-> (2018.1) 0x04852880 memmove
---95893-- REDIR: 0x4c6a470 (libc.so.6:wcscmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4ea60 (libc.so.6:stpncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c6aa30 (libc.so.6:wmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4d8b0 (libc.so.6:strncmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4eaf0 (libc.so.6:strcasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4d4a0 (libc.so.6:strcspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c6a4f0 (libc.so.6:wcscpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4d250 (libc.so.6:strcat) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4ebe0 (libc.so.6:strncasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4e500 (libc.so.6:bcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c565f0 (libc.so.6:memrchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c50090 (libc.so.6:strchrnul) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4d410 (libc.so.6:strcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4eb90 (libc.so.6:strcasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4d720 (libc.so.6:strlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4d950 (libc.so.6:strncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4e9d0 (libc.so.6:stpcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4e470 (libc.so.6:memchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4db80 (libc.so.6:strspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4e850 (libc.so.6:mempcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4eb40 (libc.so.6:strncasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c50000 (libc.so.6:rawmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4c4e390 (libc.so.6:strstr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
---95893-- REDIR: 0x4d427d0 (libc.so.6:__strrchr_avx2) redirected to 0x484e810 (rindex)
---95893-- REDIR: 0x4c4a120 (libc.so.6:malloc) redirected to 0x4848820 (malloc)
---95893-- REDIR: 0x4d429a0 (libc.so.6:__strlen_avx2) redirected to 0x484ed10 (strlen)
---95893-- REDIR: 0x4d3ec40 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x4852010 (bcmp)
---95893-- REDIR: 0x4a07970 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x4848fa0 (operator new(unsigned long))
---95893-- REDIR: 0x4d45980 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x4852880 (memmove)
---95893-- REDIR: 0x4a05c20 (libstdc++.so.6:operator delete(void*, unsigned long)) redirected to 0x484bb00 (operator delete(void*, unsigned long))
---95893-- REDIR: 0x4d42340 (libc.so.6:__strchr_avx2) redirected to 0x484e9f0 (index)
---95893-- REDIR: 0x4a05c10 (libstdc++.so.6:operator delete(void*)) redirected to 0x484b840 (operator delete(void*))
---95893-- REDIR: 0x4d3db00 (libc.so.6:__strcmp_avx2) redirected to 0x484fbd0 (strcmp)
---95893-- REDIR: 0x4d3df40 (libc.so.6:__strncmp_avx2) redirected to 0x484f3e0 (strncmp)
---95893-- REDIR: 0x4d3f2f0 (libc.so.6:__strcasecmp_avx) redirected to 0x484f560 (strcasecmp)
---95893-- REDIR: 0x4d425c0 (libc.so.6:__strchrnul_avx2) redirected to 0x4853330 (strchrnul)
---95893-- REDIR: 0x4d45940 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4853440 (mempcpy)
---95893-- REDIR: 0x4a079d0 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x484a280 (operator new[](unsigned long))
---95893-- REDIR: 0x4a05c40 (libstdc++.so.6:operator delete[](void*)) redirected to 0x484ca20 (operator delete[](void*))
---95893-- REDIR: 0x4c4a460 (libc.so.6:free) redirected to 0x484b210 (free)
---95893-- REDIR: 0x4c69200 (libc.so.6:__strstr_sse2_unaligned) redirected to 0x4853a50 (strstr)
-==95893== 
-==95893== FILE DESCRIPTORS: 11 open (3 std) at exit.
-==95893== Open file descriptor 103: /snap/code/140/usr/share/code/v8_context_snapshot.bin
-==95893==    <inherited from parent>
-==95893== 
-==95893== Open file descriptor 43: /dev/ptmx
-==95893==    <inherited from parent>
-==95893== 
-==95893== Open file descriptor 42: /dev/ptmx
-==95893==    <inherited from parent>
-==95893== 
-==95893== Open AF_UNIX socket 41: <unknown>
-==95893==    <inherited from parent>
-==95893== 
-==95893== Open AF_UNIX socket 38: <unknown>
-==95893==    <inherited from parent>
-==95893== 
-==95893== Open file descriptor 37: /snap/code/140/usr/share/code/resources/app/node_modules.asar
-==95893==    <inherited from parent>
-==95893== 
-==95893== Open file descriptor 36: /home/klotzgal/.config/Code/logs/20230924T115410/ptyhost.log
-==95893==    <inherited from parent>
-==95893== 
-==95893== Open file descriptor 3: /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/valgrind.txt
-==95893==    <inherited from parent>
-==95893== 
-==95893== 
-==95893== HEAP SUMMARY:
-==95893==     in use at exit: 0 bytes in 0 blocks
-==95893==   total heap usage: 278 allocs, 278 frees, 122,745 bytes allocated
-==95893== 
-==95893== All heap blocks were freed -- no leaks are possible
-==95893== 
-==95893== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==14435== Memcheck, a memory error detector
+==14435== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==14435== Using Valgrind-3.18.1-42b08ed5bd-20211015 and LibVEX; rerun with -h for copyright info
+==14435== Command: ./test
+==14435== Parent PID: 14434
+==14435== 
+--14435-- 
+--14435-- Valgrind options:
+--14435--    --trace-children=yes
+--14435--    --track-fds=yes
+--14435--    --track-origins=yes
+--14435--    --leak-check=full
+--14435--    --show-leak-kinds=all
+--14435--    --verbose
+--14435--    --log-file=valgrind.txt
+--14435-- Contents of /proc/version:
+--14435--   Linux version 6.2.0-33-generic (buildd@lcy02-amd64-073) (x86_64-linux-gnu-gcc-11 (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #33~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  7 10:33:52 UTC 2
+--14435-- 
+--14435-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand-rdseed
+--14435-- Page sizes: currently 4096, max supported 4096
+--14435-- Valgrind library directory: /usr/libexec/valgrind
+--14435-- Reading syms from /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test
+--14435-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+--14435--   Considering /usr/lib/debug/.build-id/31/46e5a5e66e1fd6ab59a39e486a9d246bc675c0.debug ..
+--14435--   .. build-id is valid
+--14435-- Reading syms from /usr/libexec/valgrind/memcheck-amd64-linux
+--14435--    object doesn't have a symbol table
+--14435--    object doesn't have a dynamic symbol table
+--14435-- Scheduler: using generic scheduler lock implementation.
+--14435-- Reading suppressions file: /usr/libexec/valgrind/default.supp
+==14435== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-14435-by-klotzgal-on-???
+==14435== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-14435-by-klotzgal-on-???
+==14435== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-14435-by-klotzgal-on-???
+==14435== 
+==14435== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==14435== don't want to do, unless you know exactly what you're doing,
+==14435== or are doing some strange experiment):
+==14435==   /usr/bin/vgdb --pid=14435 ...command...
+==14435== 
+==14435== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==14435==   /path/to/gdb ./test
+==14435== and then give GDB the following command
+==14435==   target remote | /usr/bin/vgdb --pid=14435
+==14435== --pid is optional if only one valgrind process is running
+==14435== 
+--14435-- REDIR: 0x402aaa0 (ld-linux-x86-64.so.2:strlen) redirected to 0x580bcec2 (???)
+--14435-- REDIR: 0x402a870 (ld-linux-x86-64.so.2:index) redirected to 0x580bcedc (???)
+--14435-- Reading syms from /usr/libexec/valgrind/vgpreload_core-amd64-linux.so
+--14435--    object doesn't have a symbol table
+--14435-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so
+--14435--    object doesn't have a symbol table
+==14435== WARNING: new redirection conflicts with existing -- ignoring it
+--14435--     old: 0x0402aaa0 (strlen              ) R-> (0000.0) 0x580bcec2 ???
+--14435--     new: 0x0402aaa0 (strlen              ) R-> (2007.0) 0x0484ee30 strlen
+--14435-- REDIR: 0x4027280 (ld-linux-x86-64.so.2:strcmp) redirected to 0x484fcd0 (strcmp)
+--14435-- REDIR: 0x402b000 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4853840 (mempcpy)
+--14435-- Reading syms from /usr/lib/x86_64-linux-gnu/libm.so.6
+--14435--   Considering /usr/lib/debug/.build-id/22/1c30924bca215d523f04ea0aeba15703011edc.debug ..
+--14435--   .. build-id is valid
+--14435-- Reading syms from /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+--14435--    object doesn't have a symbol table
+--14435-- Reading syms from /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+--14435--    object doesn't have a symbol table
+--14435-- Reading syms from /usr/lib/x86_64-linux-gnu/libc.so.6
+--14435--   Considering /usr/lib/debug/.build-id/22/9b7dc509053fe4df5e29e8629911f0c3bc66dd.debug ..
+--14435--   .. build-id is valid
+==14435== WARNING: new redirection conflicts with existing -- ignoring it
+--14435--     old: 0x04c4ace0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--14435--     new: 0x04c4ace0 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
+==14435== WARNING: new redirection conflicts with existing -- ignoring it
+--14435--     old: 0x04c4ace0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--14435--     new: 0x04c4ace0 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
+==14435== WARNING: new redirection conflicts with existing -- ignoring it
+--14435--     old: 0x04c4ace0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--14435--     new: 0x04c4ace0 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
+==14435== WARNING: new redirection conflicts with existing -- ignoring it
+--14435--     old: 0x04c4ace0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--14435--     new: 0x04c4ace0 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
+--14435-- REDIR: 0x4c4d7a0 (libc.so.6:strnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4da60 (libc.so.6:strpbrk) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4d360 (libc.so.6:strcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c6bd50 (libc.so.6:wcsnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4e750 (libc.so.6:memset) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c6a5c0 (libc.so.6:wcslen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4ec90 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c6a3f0 (libc.so.6:wcschr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4d2e0 (libc.so.6:index) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4d9e0 (libc.so.6:rindex) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4e620 (libc.so.6:memmove) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+==14435== Preferring higher priority redirection:
+--14435--     old: 0x04d45980 (__memcpy_avx_unalign) R-> (2018.0) 0x04850f90 __memcpy_avx_unaligned_erms
+--14435--     new: 0x04d45980 (__memcpy_avx_unalign) R-> (2018.1) 0x04852880 memmove
+--14435-- REDIR: 0x4c6a470 (libc.so.6:wcscmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4ea60 (libc.so.6:stpncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c6aa30 (libc.so.6:wmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4d8b0 (libc.so.6:strncmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4eaf0 (libc.so.6:strcasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4d4a0 (libc.so.6:strcspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c6a4f0 (libc.so.6:wcscpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4d250 (libc.so.6:strcat) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4ebe0 (libc.so.6:strncasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4e500 (libc.so.6:bcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c565f0 (libc.so.6:memrchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c50090 (libc.so.6:strchrnul) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4d410 (libc.so.6:strcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4eb90 (libc.so.6:strcasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4d720 (libc.so.6:strlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4d950 (libc.so.6:strncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4e9d0 (libc.so.6:stpcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4e470 (libc.so.6:memchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4db80 (libc.so.6:strspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4e850 (libc.so.6:mempcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4eb40 (libc.so.6:strncasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c50000 (libc.so.6:rawmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4c4e390 (libc.so.6:strstr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--14435-- REDIR: 0x4d427d0 (libc.so.6:__strrchr_avx2) redirected to 0x484e810 (rindex)
+--14435-- REDIR: 0x4c4a120 (libc.so.6:malloc) redirected to 0x4848820 (malloc)
+--14435-- REDIR: 0x4d429a0 (libc.so.6:__strlen_avx2) redirected to 0x484ed10 (strlen)
+--14435-- REDIR: 0x4d3ec40 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x4852010 (bcmp)
+--14435-- REDIR: 0x4a07970 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x4848fa0 (operator new(unsigned long))
+--14435-- REDIR: 0x4d45980 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x4852880 (memmove)
+--14435-- REDIR: 0x4a05c20 (libstdc++.so.6:operator delete(void*, unsigned long)) redirected to 0x484bb00 (operator delete(void*, unsigned long))
+--14435-- REDIR: 0x4d42340 (libc.so.6:__strchr_avx2) redirected to 0x484e9f0 (index)
+--14435-- REDIR: 0x4a05c10 (libstdc++.so.6:operator delete(void*)) redirected to 0x484b840 (operator delete(void*))
+--14435-- REDIR: 0x4d3db00 (libc.so.6:__strcmp_avx2) redirected to 0x484fbd0 (strcmp)
+--14435-- REDIR: 0x4d3df40 (libc.so.6:__strncmp_avx2) redirected to 0x484f3e0 (strncmp)
+--14435-- REDIR: 0x4d3f2f0 (libc.so.6:__strcasecmp_avx) redirected to 0x484f560 (strcasecmp)
+--14435-- REDIR: 0x4d425c0 (libc.so.6:__strchrnul_avx2) redirected to 0x4853330 (strchrnul)
+--14435-- REDIR: 0x4d45940 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4853440 (mempcpy)
+--14435-- REDIR: 0x4a079d0 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x484a280 (operator new[](unsigned long))
+--14435-- REDIR: 0x4a05c40 (libstdc++.so.6:operator delete[](void*)) redirected to 0x484ca20 (operator delete[](void*))
+--14435-- REDIR: 0x4c4a460 (libc.so.6:free) redirected to 0x484b210 (free)
+==14435== Invalid read of size 8
+==14435==    at 0x119C3B: testing::AssertionResult testing::internal::CmpHelperEQ<double, int>(char const*, char const*, double const&, int const&) (gtest.h:1545)
+==14435==    by 0x1198FB: testing::AssertionResult testing::internal::EqHelper::Compare<double, int, (void*)0>(char const*, char const*, double const&, int const&) (gtest.h:1564)
+==14435==    by 0x11786B: CopyTest_Subtest_1_Test::TestBody() (test.cc:43)
+==14435==    by 0x14D2CE: void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141115: testing::Test::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141294: testing::TestInfo::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141848: testing::TestSuite::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141F4E: testing::internal::UnitTestImpl::RunAllTests() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x14D896: bool testing::internal::HandleExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool>(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*) (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x14135B: testing::UnitTest::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x1189C5: RUN_ALL_TESTS() (gtest.h:2490)
+==14435==    by 0x11798B: main (test.cc:50)
+==14435==  Address 0x4df40b0 is 8 bytes after a block of size 8 alloc'd
+==14435==    at 0x484A2F3: operator new[](unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==14435==    by 0x11B365: S21Matrix::S21Matrix(std::initializer_list<double>) (s21_matrix_oop.cc:35)
+==14435==    by 0x118A46: CopyTest::SetUp() (test.cc:14)
+==14435==    by 0x14D2CE: void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x1410A0: testing::Test::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141294: testing::TestInfo::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141848: testing::TestSuite::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141F4E: testing::internal::UnitTestImpl::RunAllTests() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x14D896: bool testing::internal::HandleExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool>(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*) (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x14135B: testing::UnitTest::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x1189C5: RUN_ALL_TESTS() (gtest.h:2490)
+==14435==    by 0x11798B: main (test.cc:50)
+==14435== 
+==14435== 
+==14435== FILE DESCRIPTORS: 8 open (3 std) at exit.
+==14435== Open file descriptor 103: /snap/code/140/usr/share/code/v8_context_snapshot.bin
+==14435==    <inherited from parent>
+==14435== 
+==14435== Open AF_UNIX socket 38: <unknown>
+==14435==    <inherited from parent>
+==14435== 
+==14435== Open file descriptor 37: /snap/code/140/usr/share/code/resources/app/node_modules.asar
+==14435==    <inherited from parent>
+==14435== 
+==14435== Open file descriptor 36: /home/klotzgal/.config/Code/logs/20230928T084142/ptyhost.log
+==14435==    <inherited from parent>
+==14435== 
+==14435== Open file descriptor 3: /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/valgrind.txt
+==14435==    <inherited from parent>
+==14435== 
+==14435== 
+==14435== HEAP SUMMARY:
+==14435==     in use at exit: 0 bytes in 0 blocks
+==14435==   total heap usage: 303 allocs, 303 frees, 121,814 bytes allocated
+==14435== 
+==14435== All heap blocks were freed -- no leaks are possible
+==14435== 
+==14435== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+==14435== 
+==14435== 1 errors in context 1 of 1:
+==14435== Invalid read of size 8
+==14435==    at 0x119C3B: testing::AssertionResult testing::internal::CmpHelperEQ<double, int>(char const*, char const*, double const&, int const&) (gtest.h:1545)
+==14435==    by 0x1198FB: testing::AssertionResult testing::internal::EqHelper::Compare<double, int, (void*)0>(char const*, char const*, double const&, int const&) (gtest.h:1564)
+==14435==    by 0x11786B: CopyTest_Subtest_1_Test::TestBody() (test.cc:43)
+==14435==    by 0x14D2CE: void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141115: testing::Test::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141294: testing::TestInfo::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141848: testing::TestSuite::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141F4E: testing::internal::UnitTestImpl::RunAllTests() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x14D896: bool testing::internal::HandleExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool>(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*) (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x14135B: testing::UnitTest::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x1189C5: RUN_ALL_TESTS() (gtest.h:2490)
+==14435==    by 0x11798B: main (test.cc:50)
+==14435==  Address 0x4df40b0 is 8 bytes after a block of size 8 alloc'd
+==14435==    at 0x484A2F3: operator new[](unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==14435==    by 0x11B365: S21Matrix::S21Matrix(std::initializer_list<double>) (s21_matrix_oop.cc:35)
+==14435==    by 0x118A46: CopyTest::SetUp() (test.cc:14)
+==14435==    by 0x14D2CE: void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x1410A0: testing::Test::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141294: testing::TestInfo::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141848: testing::TestSuite::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x141F4E: testing::internal::UnitTestImpl::RunAllTests() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x14D896: bool testing::internal::HandleExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool>(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*) (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x14135B: testing::UnitTest::Run() (in /home/klotzgal/Desktop/kl/S21_CPP/S21_matrixplus/src/test)
+==14435==    by 0x1189C5: RUN_ALL_TESTS() (gtest.h:2490)
+==14435==    by 0x11798B: main (test.cc:50)
+==14435== 
+==14435== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
