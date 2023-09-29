@@ -1,7 +1,7 @@
 #include "s21_matrix_oop.h"
 
 // Конструкторы и деструктор
-S21Matrix::S21Matrix() : rows_(1), cols_(1), matrix_(new double()) {
+S21Matrix::S21Matrix() : rows_(1), cols_(1), matrix_(new double[1]()) {
   // std::cout << "Дефолтный конструктор\n";
 }
 
@@ -66,19 +66,19 @@ S21Matrix::~S21Matrix() {
 
 //  Геттеры и сеттеры
 
-double S21Matrix::GetElement(int i, int j) const {
-  if (rows_ < i || cols_ < j || i < 1 || j < 1) {
-    throw std::invalid_argument("Out of range");
-  }
-  return (*this)(i, j);
-}
+// double S21Matrix::GetElement(int i, int j) const {
+//   if (rows_ - 1 < i || cols_ - 1 < j || i < 0 || j < 0) {
+//     throw std::invalid_argument("Out of range");
+//   }
+//   return (*this)(i, j);
+// }
 
-void S21Matrix::SetElement(int i, int j, double value) {
-  if (rows_ < i || cols_ < j || i < 1 || j < 1) {
-    throw std::invalid_argument("Out of range");
-  }
-  (*this)(i, j) = value;
-}
+// void S21Matrix::SetElement(int i, int j, double value) {
+//   if (rows_ - 1 < i || cols_ - 1 < j || i < 0 || j < 0) {
+//     throw std::invalid_argument("Out of range");
+//   }
+//   (*this)(i, j) = value;
+// }
 
 double S21Matrix::GetRow() const { return rows_; }
 
@@ -200,6 +200,39 @@ void S21Matrix::MulMatrix(const S21Matrix& other) {
   *this = std::move(tmp);
 }
 
+S21Matrix S21Matrix::Transpose() {
+  S21Matrix tmp(cols_, rows_);
+  for (size_t i = 0; i < cols_; i++) {
+    for (size_t j = 0; j < rows_; j++) {
+      tmp(i, j) = (*this)(j, i);
+    }
+  }
+  std::swap(rows_, cols_);
+  *this = std::move(tmp);
+  return *this;
+}
+
+S21Matrix S21Matrix::CalcComplements() {}
+
+double S21Matrix::Determinant() {
+  double res = 0;
+  if (rows_ != cols_) {
+    throw std::invalid_argument("Invalid Matrix: The matrix should be square");
+  }
+
+  if (rows_ == 1) {
+    res = (*this)(0, 0);
+  } else if (rows_ == 2) {
+    res = SimpleDet();
+  } else {
+    for (int i = 0; i < rows_; i++) {
+      res += (*this)(i, 0) * Complement(i, 0);
+    }
+  }
+
+  return res;
+}
+
 // Перегрузки операторов
 double& S21Matrix::operator()(int i, int j) {
   // std::cout << "\n Оператор(" << i << ", " << j << ")\n";
@@ -273,6 +306,11 @@ S21Matrix& S21Matrix::operator=(S21Matrix&& other) {
   return *this;
 }
 
+// S21Matrix& S21Matrix::operator+=(S21Matrix&& other) {
+
+//   return *this;
+// }
+
 // Вспомогательные приватные методы
 
 void S21Matrix::Clear() {
@@ -280,4 +318,36 @@ void S21Matrix::Clear() {
     delete[] matrix_;
   }
   matrix_ = nullptr;
+}
+
+double S21Matrix::SimpleDet() {
+  return (*this)(0, 0) * (*this)(1, 1) - (*this)(0, 1) * (*this)(1, 0);
+  // return matrix(0, 0) * matrix(1, 1) - matrix(0, 1) * matrix(1, 0);
+}
+
+double S21Matrix::Minor( int n, int m) {
+  double res = 0;
+
+  S21Matrix tmp(rows_ - 1, cols_ - 1);
+    for (int i = 0; i < tmp.rows_; i++) {
+      for (int j = 0; j < tmp.cols_; j++) {
+        int x = 0, y = 0;
+        if (i >= n) x = 1;
+        if (j >= m) y = 1;
+        tmp(i, j) = (*this)(i + x, j + y);
+      }
+    }
+    tmp.PrintMatrix();
+    if (tmp.rows_ == 2 && tmp.cols_ == 2) {
+      res = tmp.SimpleDet();
+    } else {
+      res = tmp.Determinant();
+    }
+  
+
+  return res;
+}
+
+double S21Matrix::Complement(int n, int m) {
+  return pow(-1, (n + m)) * this->Minor(n, m);
 }

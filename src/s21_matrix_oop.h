@@ -3,6 +3,7 @@
 #define _S21_MATRIX_OOP_H_
 
 #include <algorithm>
+#include <cmath>
 #include <initializer_list>
 #include <iostream>
 #include <stdexcept>
@@ -16,6 +17,9 @@ class S21Matrix {
   double* matrix_;
   // Вспомогательные приватные методы
   void Clear();
+  double SimpleDet();
+  double Minor(int n, int m);
+  double Complement(int n, int m);
 
  public:
   // Конструкторы и деструктор
@@ -27,8 +31,8 @@ class S21Matrix {
   ~S21Matrix();
 
   //  Геттеры и сеттеры
-  double GetElement(int i, int j) const;
-  void SetElement(int i, int j, double value);
+  // double GetElement(int i, int j) const;
+  // void SetElement(int i, int j, double value);
   double GetRow() const;
   void SetRow(int row);
   double GetColumn() const;
@@ -41,6 +45,9 @@ class S21Matrix {
   void SubMatrix(const S21Matrix& other);
   void MulNumber(const double num);
   void MulMatrix(const S21Matrix& other);
+  S21Matrix Transpose();
+  S21Matrix CalcComplements();
+  double Determinant();
 
   // Перегрузки операторов
   double& operator()(int i, int j);
@@ -53,6 +60,7 @@ class S21Matrix {
   bool operator==(const S21Matrix& other) const noexcept;
   S21Matrix& operator=(const S21Matrix& other);
   S21Matrix& operator=(S21Matrix&& other);
+  // S21Matrix& operator+=(S21Matrix&& other);
 };
 
 #endif  // _S21_MATRIX_OOP_H_
