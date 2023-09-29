@@ -66,20 +66,6 @@ S21Matrix::~S21Matrix() {
 
 //  Геттеры и сеттеры
 
-// double S21Matrix::GetElement(int i, int j) const {
-//   if (rows_ - 1 < i || cols_ - 1 < j || i < 0 || j < 0) {
-//     throw std::invalid_argument("Out of range");
-//   }
-//   return (*this)(i, j);
-// }
-
-// void S21Matrix::SetElement(int i, int j, double value) {
-//   if (rows_ - 1 < i || cols_ - 1 < j || i < 0 || j < 0) {
-//     throw std::invalid_argument("Out of range");
-//   }
-//   (*this)(i, j) = value;
-// }
-
 double S21Matrix::GetRow() const { return rows_; }
 
 void S21Matrix::SetRow(int row) {
@@ -129,7 +115,7 @@ void S21Matrix::SetColumn(int column) {
 void S21Matrix::PrintMatrix() const {
   for (size_t i = 0; i < rows_; i++) {
     for (size_t j = 0; j < cols_; j++) {
-      std::cout << (*this)(i, j) << " ";
+      std::cout << std::fixed << (*this)(i, j) << " ";
     }
     std::cout << "\n";
   }
@@ -143,7 +129,7 @@ bool S21Matrix::EqMatrix(const S21Matrix& other) const noexcept {
   bool res = true;
   for (size_t i = 0; i < rows_; i++) {
     for (size_t j = 0; j < cols_; j++) {
-      if ((*this)(i, j) - other(i, j) >= EPS) {
+      if (fabs((*this)(i, j) - other(i, j)) >= EPS) {
         res = false;
       };
     }
@@ -196,7 +182,6 @@ void S21Matrix::MulMatrix(const S21Matrix& other) {
       }
     }
   }
-  Clear();
   *this = std::move(tmp);
 }
 
@@ -212,9 +197,23 @@ S21Matrix S21Matrix::Transpose() {
   return *this;
 }
 
-S21Matrix S21Matrix::CalcComplements() {}
+S21Matrix S21Matrix::CalcComplements() {
+  double res = 0;
+  if (rows_ != cols_) {
+    throw std::invalid_argument("Invalid Matrix: The matrix should be square");
+  }
 
-double S21Matrix::Determinant() {
+  S21Matrix tmp(rows_, cols_);
+  for (size_t i = 0; i < tmp.rows_; i++) {
+    for (size_t j = 0; j < tmp.cols_; j++) {
+      tmp(i, j) = Complement(i, j);
+    }
+  }
+  *this = std::move(tmp);
+  return *this;
+}
+
+double S21Matrix::Determinant() const {
   double res = 0;
   if (rows_ != cols_) {
     throw std::invalid_argument("Invalid Matrix: The matrix should be square");
@@ -231,6 +230,27 @@ double S21Matrix::Determinant() {
   }
 
   return res;
+}
+
+S21Matrix S21Matrix::InverseMatrix() {
+  double res = 0;
+  if (rows_ != cols_) {
+    throw std::invalid_argument("Invalid Matrix: The matrix should be square");
+  }
+  double det = Determinant();
+  if (det == 0) {
+    throw std::invalid_argument("Invalid Matrix: Determinant of matrix is 0");
+  }
+
+  if (rows_ == 1) {
+    (*this)(0, 0) = 1 / (*this)(0, 0);
+  } else {
+    CalcComplements();
+    Transpose();
+    MulNumber(1 / det);
+  }
+
+  return *this;
 }
 
 // Перегрузки операторов
@@ -278,7 +298,6 @@ bool S21Matrix::operator==(const S21Matrix& other) const noexcept {
   return (*this).EqMatrix(other);
 }
 
-// lv=lv
 S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
   if (this != &other) {
     S21Matrix res(other);
@@ -306,10 +325,20 @@ S21Matrix& S21Matrix::operator=(S21Matrix&& other) {
   return *this;
 }
 
-// S21Matrix& S21Matrix::operator+=(S21Matrix&& other) {
+S21Matrix& S21Matrix::operator+=(S21Matrix&& other) {
+  SumMatrix(other);
+  return *this;
+}
 
-//   return *this;
-// }
+S21Matrix& S21Matrix::operator-=(S21Matrix&& other) {
+  SubMatrix(other);
+  return *this;
+}
+
+S21Matrix& S21Matrix::operator*=(S21Matrix&& other) {
+  MulMatrix(other);
+  return *this;
+}
 
 // Вспомогательные приватные методы
 
@@ -320,34 +349,27 @@ void S21Matrix::Clear() {
   matrix_ = nullptr;
 }
 
-double S21Matrix::SimpleDet() {
+double S21Matrix::SimpleDet() const {
   return (*this)(0, 0) * (*this)(1, 1) - (*this)(0, 1) * (*this)(1, 0);
-  // return matrix(0, 0) * matrix(1, 1) - matrix(0, 1) * matrix(1, 0);
 }
 
-double S21Matrix::Minor( int n, int m) {
+double S21Matrix::Minor(int n, int m) const {
   double res = 0;
 
   S21Matrix tmp(rows_ - 1, cols_ - 1);
-    for (int i = 0; i < tmp.rows_; i++) {
-      for (int j = 0; j < tmp.cols_; j++) {
-        int x = 0, y = 0;
-        if (i >= n) x = 1;
-        if (j >= m) y = 1;
-        tmp(i, j) = (*this)(i + x, j + y);
-      }
+  for (int i = 0; i < tmp.rows_; i++) {
+    for (int j = 0; j < tmp.cols_; j++) {
+      int x = 0, y = 0;
+      if (i >= n) x = 1;
+      if (j >= m) y = 1;
+      tmp(i, j) = (*this)(i + x, j + y);
     }
-    tmp.PrintMatrix();
-    if (tmp.rows_ == 2 && tmp.cols_ == 2) {
-      res = tmp.SimpleDet();
-    } else {
-      res = tmp.Determinant();
-    }
-  
+  }
 
+  res = tmp.Determinant();
   return res;
 }
 
-double S21Matrix::Complement(int n, int m) {
-  return pow(-1, (n + m)) * this->Minor(n, m);
+double S21Matrix::Complement(int n, int m) const {
+  return pow(-1, (n + m)) * Minor(n, m);
 }

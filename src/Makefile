@@ -26,7 +26,6 @@ clean :
 	@rm -rf report test.info gcov f test main *.a *.o *.g* */*.o */*.a */*/*.o *.g* */*.g* */*/*.g*
 	
 # *.{a,o,dSYM,out,g*} 
-# ls -la *
 
 test : clean $(LIB).a $(TEST).o
 	@echo "$(BLUE)--------------RUNNING TESTS--------------$(END)"

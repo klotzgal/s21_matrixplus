@@ -4,10 +4,9 @@
 
 #include <algorithm>
 #include <cmath>
-#include <initializer_list>
 #include <iostream>
 #include <stdexcept>
-#include <vector>
+// #include <initializer_list>
 
 #define EPS 1e-7
 
@@ -17,9 +16,9 @@ class S21Matrix {
   double* matrix_;
   // Вспомогательные приватные методы
   void Clear();
-  double SimpleDet();
-  double Minor(int n, int m);
-  double Complement(int n, int m);
+  double SimpleDet() const;
+  double Minor(int n, int m) const;
+  double Complement(int n, int m) const;
 
  public:
   // Конструкторы и деструктор
@@ -47,7 +46,8 @@ class S21Matrix {
   void MulMatrix(const S21Matrix& other);
   S21Matrix Transpose();
   S21Matrix CalcComplements();
-  double Determinant();
+  double Determinant() const;
+  S21Matrix InverseMatrix();
 
   // Перегрузки операторов
   double& operator()(int i, int j);
@@ -60,7 +60,9 @@ class S21Matrix {
   bool operator==(const S21Matrix& other) const noexcept;
   S21Matrix& operator=(const S21Matrix& other);
   S21Matrix& operator=(S21Matrix&& other);
-  // S21Matrix& operator+=(S21Matrix&& other);
+  S21Matrix& operator+=(S21Matrix&& other);
+  S21Matrix& operator-=(S21Matrix&& other);
+  S21Matrix& operator*=(S21Matrix&& other);
 };
 
 #endif  // _S21_MATRIX_OOP_H_
