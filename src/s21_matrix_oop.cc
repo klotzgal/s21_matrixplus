@@ -66,9 +66,9 @@ S21Matrix::~S21Matrix() {
 
 //  Геттеры и сеттеры
 
-double S21Matrix::GetRow() const { return rows_; }
+double S21Matrix::GetRows() const { return rows_; }
 
-void S21Matrix::SetRow(int row) {
+void S21Matrix::SetRows(int row) {
   if (row < 1) {
     throw std::invalid_argument(
         "Invalid Matrix: the number of rows should be a natural number");
@@ -89,9 +89,9 @@ void S21Matrix::SetRow(int row) {
   // tmp = nullptr;
 }
 
-double S21Matrix::GetColumn() const { return cols_; }
+double S21Matrix::GetCols() const { return cols_; }
 
-void S21Matrix::SetColumn(int column) {
+void S21Matrix::SetCols(int column) {
   if (column < 1) {
     throw std::invalid_argument(
         "Invalid Matrix: the number of columns should be a natural number");
@@ -255,12 +255,16 @@ S21Matrix S21Matrix::InverseMatrix() {
 
 // Перегрузки операторов
 double& S21Matrix::operator()(int i, int j) {
-  // std::cout << "\n Оператор(" << i << ", " << j << ")\n";
+  if (i < 0 || j < 0 || i > GetRows() || j > GetCols()) {
+    throw std::out_of_range("Out of range");
+  }
   return matrix_[i * cols_ + j];
 }
 
 double S21Matrix::operator()(int i, int j) const {
-  // std::cout << "\nconst Оператор(" << i << ", " << j << ")\n";
+  if (i < 0 || j < 0 || i > GetRows() || j > GetCols()) {
+    throw std::out_of_range("Out of range");
+  }
   return matrix_[i * cols_ + j];
 }
 
@@ -301,8 +305,8 @@ bool S21Matrix::operator==(const S21Matrix& other) const noexcept {
 S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
   if (this != &other) {
     S21Matrix res(other);
-    rows_ = other.GetRow();
-    cols_ = other.GetColumn();
+    rows_ = other.GetRows();
+    cols_ = other.GetCols();
     Clear();
     matrix_ = new double[rows_ * cols_]();
     for (size_t i = 0; i < rows_; i++) {
@@ -325,18 +329,23 @@ S21Matrix& S21Matrix::operator=(S21Matrix&& other) {
   return *this;
 }
 
-S21Matrix& S21Matrix::operator+=(S21Matrix&& other) {
+S21Matrix& S21Matrix::operator+=(const S21Matrix& other) {
   SumMatrix(other);
   return *this;
 }
 
-S21Matrix& S21Matrix::operator-=(S21Matrix&& other) {
+S21Matrix& S21Matrix::operator-=(const S21Matrix& other) {
   SubMatrix(other);
   return *this;
 }
 
-S21Matrix& S21Matrix::operator*=(S21Matrix&& other) {
+S21Matrix& S21Matrix::operator*=(const S21Matrix& other) {
   MulMatrix(other);
+  return *this;
+}
+
+S21Matrix& S21Matrix::operator*=(const double num) {
+  MulNumber(num);
   return *this;
 }
 

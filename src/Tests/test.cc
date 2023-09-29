@@ -72,8 +72,8 @@ TEST_F(MatrixTests, MoveTest_1) {
   S21Matrix m2(std::move(m1));
 
   ASSERT_EQ(m2.EqMatrix(*m3x3), true);
-  ASSERT_EQ(m1.GetColumn(), 0);
-  ASSERT_EQ(m1.GetRow(), 0);
+  ASSERT_EQ(m1.GetCols(), 0);
+  ASSERT_EQ(m1.GetRows(), 0);
 }
 
 TEST_F(MatrixTests, MoveTest_2) {
@@ -81,8 +81,8 @@ TEST_F(MatrixTests, MoveTest_2) {
   S21Matrix m2(std::move(m1));
 
   ASSERT_EQ(m2.EqMatrix(*m3x3), true);
-  ASSERT_EQ(m1.GetColumn(), 0);
-  ASSERT_EQ(m1.GetRow(), 0);
+  ASSERT_EQ(m1.GetCols(), 0);
+  ASSERT_EQ(m1.GetRows(), 0);
 }
 
 TEST_F(MatrixTests, MoveTest_3) {
@@ -90,8 +90,8 @@ TEST_F(MatrixTests, MoveTest_3) {
   S21Matrix m2(std::move(m1));
 
   ASSERT_EQ(m2.EqMatrix(*m1x5), true);
-  ASSERT_EQ(m1.GetColumn(), 0);
-  ASSERT_EQ(m1.GetRow(), 0);
+  ASSERT_EQ(m1.GetCols(), 0);
+  ASSERT_EQ(m1.GetRows(), 0);
 }
 
 TEST_F(MatrixTests, MoveTest_4) {
@@ -99,32 +99,32 @@ TEST_F(MatrixTests, MoveTest_4) {
   S21Matrix m2(std::move(m1));
 
   ASSERT_EQ(m2.EqMatrix(*m5x1), true);
-  ASSERT_EQ(m1.GetColumn(), 0);
-  ASSERT_EQ(m1.GetRow(), 0);
+  ASSERT_EQ(m1.GetCols(), 0);
+  ASSERT_EQ(m1.GetRows(), 0);
 }
 
 //* Getters
 TEST_F(MatrixTests, GetTest_1) {
-  ASSERT_EQ(m1x1->GetRow(), 1);
-  ASSERT_EQ(m1x1->GetColumn(), 1);
+  ASSERT_EQ(m1x1->GetRows(), 1);
+  ASSERT_EQ(m1x1->GetCols(), 1);
 }
 
 TEST_F(MatrixTests, GetTest_2) {
-  ASSERT_EQ(m3x3->GetRow(), 3);
-  ASSERT_EQ(m2x3->GetColumn(), 3);
+  ASSERT_EQ(m3x3->GetRows(), 3);
+  ASSERT_EQ(m2x3->GetCols(), 3);
 }
 
 //* Setters
 TEST_F(MatrixTests, SetTest_1) {
-  m1x1->SetRow(3);
-  ASSERT_EQ(m1x1->GetRow(), 3);
-  m1x1->SetColumn(4);
-  ASSERT_EQ(m1x1->GetColumn(), 4);
+  m1x1->SetRows(3);
+  ASSERT_EQ(m1x1->GetRows(), 3);
+  m1x1->SetCols(4);
+  ASSERT_EQ(m1x1->GetCols(), 4);
 }
 
-TEST_F(MatrixTests, SetTest_2) { ASSERT_ANY_THROW(m1x1->SetRow(-1)); }
+TEST_F(MatrixTests, SetTest_2) { ASSERT_ANY_THROW(m1x1->SetRows(-1)); }
 
-TEST_F(MatrixTests, SetTest_3) { ASSERT_ANY_THROW(m1x1->SetColumn(-1)); }
+TEST_F(MatrixTests, SetTest_3) { ASSERT_ANY_THROW(m1x1->SetCols(-1)); }
 
 //* EqualMatrix
 TEST_F(MatrixTests, EqTest_1) {
@@ -261,8 +261,8 @@ TEST_F(MatrixTests, MulMatrixTest_3) {
 //* Transpose Matrix
 TEST_F(MatrixTests, TransposeTest_1) {
   m1x5->Transpose();
-  ASSERT_EQ(m1x5->GetRow(), 5);
-  ASSERT_EQ(m1x5->GetColumn(), 1);
+  ASSERT_EQ(m1x5->GetRows(), 5);
+  ASSERT_EQ(m1x5->GetCols(), 1);
   ASSERT_EQ((*m1x5)(0, 0), 1);
   ASSERT_EQ((*m1x5)(1, 0), 2);
   ASSERT_EQ((*m1x5)(2, 0), 3);
@@ -272,8 +272,8 @@ TEST_F(MatrixTests, TransposeTest_1) {
 
 TEST_F(MatrixTests, TransposeTest_2) {
   m1x1->Transpose();
-  ASSERT_EQ(m1x1->GetRow(), 1);
-  ASSERT_EQ(m1x1->GetColumn(), 1);
+  ASSERT_EQ(m1x1->GetRows(), 1);
+  ASSERT_EQ(m1x1->GetCols(), 1);
   ASSERT_EQ((*m1x1)(0, 0), 5);
 }
 
@@ -397,18 +397,80 @@ TEST_F(MatrixTests, MultMatrixTest_1) {
   ASSERT_EQ((*m2x3)(1, 2), 25);
 }
 
-TEST_F(MatrixTests, EqualTest_1) {
-  ASSERT_EQ(*m2x3 == *m2x3, true);
-}
+TEST_F(MatrixTests, EqualTest_1) { ASSERT_EQ(*m2x3 == *m2x3, true); }
 
-TEST_F(MatrixTests, EqualTest_2) {
-  ASSERT_EQ(*m3x3 == *m2x3, false);
-}
+TEST_F(MatrixTests, EqualTest_2) { ASSERT_EQ(*m3x3 == *m2x3, false); }
 
 TEST_F(MatrixTests, EqualTest_3) {
   S21Matrix m(*m3x3);
   m(0, 0) = 3;
   ASSERT_EQ(*m3x3 == m, false);
+}
+
+//* ()
+TEST_F(MatrixTests, BracesTest_1) { ASSERT_ANY_THROW((*m1x1)(-1, 0)); }
+
+//* =
+TEST_F(MatrixTests, RavnoTest_1) {
+  S21Matrix m;
+  m = *m3x3;
+  ASSERT_EQ(m.EqMatrix(*m3x3), true);
+}
+
+TEST_F(MatrixTests, RavnoTest_2) {
+  S21Matrix m;
+  m = std::move(*m3x3);
+  ASSERT_ANY_THROW((*m3x3)(1, 0));
+}
+
+//* +=
+TEST_F(MatrixTests, PlusRavnoTest_1) {
+  *m3x3 += *m3x3;
+  ASSERT_DOUBLE_EQ((*m3x3)(0, 0), 4);
+  ASSERT_DOUBLE_EQ((*m3x3)(0, 1), 8);
+  ASSERT_DOUBLE_EQ((*m3x3)(0, 2), 12);
+  ASSERT_DOUBLE_EQ((*m3x3)(1, 0), 14);
+  ASSERT_DOUBLE_EQ((*m3x3)(1, 1), 10);
+  ASSERT_DOUBLE_EQ((*m3x3)(1, 2), 6);
+  ASSERT_DOUBLE_EQ((*m3x3)(2, 0), 16);
+  ASSERT_DOUBLE_EQ((*m3x3)(2, 1), 18);
+  ASSERT_DOUBLE_EQ((*m3x3)(2, 2), 2);
+}
+
+TEST_F(MatrixTests, MinusRavnoTest_1) {
+  *m3x3 -= *m3x3;
+  ASSERT_DOUBLE_EQ((*m3x3)(0, 0), 0);
+  ASSERT_DOUBLE_EQ((*m3x3)(0, 1), 0);
+  ASSERT_DOUBLE_EQ((*m3x3)(0, 2), 0);
+  ASSERT_DOUBLE_EQ((*m3x3)(1, 0), 0);
+  ASSERT_DOUBLE_EQ((*m3x3)(1, 1), 0);
+  ASSERT_DOUBLE_EQ((*m3x3)(1, 2), 0);
+  ASSERT_DOUBLE_EQ((*m3x3)(2, 0), 0);
+  ASSERT_DOUBLE_EQ((*m3x3)(2, 1), 0);
+  ASSERT_DOUBLE_EQ((*m3x3)(2, 2), 0);
+}
+
+TEST_F(MatrixTests, MultNumberRavnoTest_1) {
+  *m3x3 *= 2;
+  ASSERT_DOUBLE_EQ((*m3x3)(0, 0), 4);
+  ASSERT_DOUBLE_EQ((*m3x3)(0, 1), 8);
+  ASSERT_DOUBLE_EQ((*m3x3)(0, 2), 12);
+  ASSERT_DOUBLE_EQ((*m3x3)(1, 0), 14);
+  ASSERT_DOUBLE_EQ((*m3x3)(1, 1), 10);
+  ASSERT_DOUBLE_EQ((*m3x3)(1, 2), 6);
+  ASSERT_DOUBLE_EQ((*m3x3)(2, 0), 16);
+  ASSERT_DOUBLE_EQ((*m3x3)(2, 1), 18);
+  ASSERT_DOUBLE_EQ((*m3x3)(2, 2), 2);
+}
+
+TEST_F(MatrixTests, MultMatrixRavnoTest_1) {
+  *m2x3 *= *m3x3;
+  ASSERT_EQ((*m2x3)(0, 0), 3);
+  ASSERT_EQ((*m2x3)(0, 1), 8);
+  ASSERT_EQ((*m2x3)(0, 2), 4);
+  ASSERT_EQ((*m2x3)(1, 0), 57);
+  ASSERT_EQ((*m2x3)(1, 1), 59);
+  ASSERT_EQ((*m2x3)(1, 2), 25);
 }
 
 int main(int argc, char **argv) {

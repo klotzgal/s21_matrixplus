@@ -32,10 +32,10 @@ class S21Matrix {
   //  Геттеры и сеттеры
   // double GetElement(int i, int j) const;
   // void SetElement(int i, int j, double value);
-  double GetRow() const;
-  void SetRow(int row);
-  double GetColumn() const;
-  void SetColumn(int column);
+  double GetRows() const;
+  void SetRows(int row);
+  double GetCols() const;
+  void SetCols(int column);
 
   // Операции
   void PrintMatrix() const;
@@ -60,9 +60,10 @@ class S21Matrix {
   bool operator==(const S21Matrix& other) const noexcept;
   S21Matrix& operator=(const S21Matrix& other);
   S21Matrix& operator=(S21Matrix&& other);
-  S21Matrix& operator+=(S21Matrix&& other);
-  S21Matrix& operator-=(S21Matrix&& other);
-  S21Matrix& operator*=(S21Matrix&& other);
+  S21Matrix& operator+=(const S21Matrix& other);
+  S21Matrix& operator-=(const S21Matrix& other);
+  S21Matrix& operator*=(const S21Matrix& other);
+  S21Matrix& operator*=(const double num);
 };
 
 #endif  // _S21_MATRIX_OOP_H_
