@@ -1,23 +1,17 @@
 #include "s21_matrix_oop.h"
 
 // Конструкторы и деструктор
-S21Matrix::S21Matrix() : rows_(1), cols_(1), matrix_(new double[1]()) {
-  // std::cout << "Дефолтный конструктор\n";
-}
+S21Matrix::S21Matrix() : rows_(1), cols_(1), matrix_(new double[1]()) {}
 
 S21Matrix::S21Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
-  // std::cout << "2 конструктор ";
   if (rows < 1 || cols < 1) {
     throw std::invalid_argument(
         "Invalid matrix: Rows and columns must be non-negative.");
   }
   matrix_ = new double[rows_ * cols_]();
-  // std::cout << "rows = " << rows_ << ", cols = " << cols_
-  //           << ", matrix = " << matrix_ << "\n";
 }
 
 S21Matrix::S21Matrix(std::initializer_list<double> init) {
-  // std::cout << "initializer_list конструктор\n";
   if (init.size() < 2) {
     throw std::invalid_argument(
         "Invalid matrix: Initialization list must contain at least two "
@@ -34,8 +28,8 @@ S21Matrix::S21Matrix(std::initializer_list<double> init) {
 
   matrix_ = new double[rows_ * cols_]();
 
-  for (size_t i = 0; i < rows_; i++) {
-    for (size_t j = 0; j < cols_; j++) {
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < cols_; j++) {
       if (it != init.end()) {
         (*this)(i, j) = *it++;
       }
@@ -47,19 +41,16 @@ S21Matrix::S21Matrix(const S21Matrix& other)
     : rows_(other.rows_),
       cols_(other.cols_),
       matrix_(new double[rows_ * cols_]()) {
-  // std::cout << "Конструктор копирования\n";
   std::copy(other.matrix_, other.matrix_ + rows_ * cols_, matrix_);
 }
 
 S21Matrix::S21Matrix(S21Matrix&& other) noexcept
     : rows_(other.rows_), cols_(other.cols_), matrix_(other.matrix_) {
-  // std::cout << "Конструктор перемещения\n";
   other.rows_ = other.cols_ = 0;
   other.matrix_ = nullptr;
 }
 
 S21Matrix::~S21Matrix() {
-  // std::cout << "Деструктор\n";
   rows_ = cols_ = 0;
   Clear();
 }
@@ -76,8 +67,8 @@ void S21Matrix::SetRows(int row) {
 
   double* tmp = new double[row * cols_]();
 
-  for (size_t i = 0; i < row; i++) {
-    for (size_t j = 0; j < cols_; j++) {
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < cols_; j++) {
       if (i < rows_) {
         tmp[i * cols_ + j] = (*this)(i, j);
       }
@@ -86,7 +77,6 @@ void S21Matrix::SetRows(int row) {
   Clear();
   rows_ = row;
   matrix_ = tmp;
-  // tmp = nullptr;
 }
 
 double S21Matrix::GetCols() const { return cols_; }
@@ -99,8 +89,8 @@ void S21Matrix::SetCols(int column) {
 
   double* tmp = new double[rows_ * column]();
 
-  for (size_t i = 0; i < rows_; i++) {
-    for (size_t j = 0; j < column; j++) {
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < column; j++) {
       if (j < cols_) {
         tmp[i * column + j] = (*this)(i, j);
       }
@@ -112,23 +102,13 @@ void S21Matrix::SetCols(int column) {
 }
 
 // Операции
-void S21Matrix::PrintMatrix() const {
-  for (size_t i = 0; i < rows_; i++) {
-    for (size_t j = 0; j < cols_; j++) {
-      std::cout << std::fixed << (*this)(i, j) << " ";
-    }
-    std::cout << "\n";
-  }
-  std::cout << "____________________________\n";
-}
-
-bool S21Matrix::EqMatrix(const S21Matrix& other) const noexcept {
+bool S21Matrix::EqMatrix(const S21Matrix& other) const {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
     return false;
   }
   bool res = true;
-  for (size_t i = 0; i < rows_; i++) {
-    for (size_t j = 0; j < cols_; j++) {
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < cols_; j++) {
       if (fabs((*this)(i, j) - other(i, j)) >= EPS) {
         res = false;
       };
@@ -142,8 +122,8 @@ void S21Matrix::SumMatrix(const S21Matrix& other) {
     throw std::invalid_argument("Not equal sizes");
   }
 
-  for (size_t i = 0; i < rows_; i++) {
-    for (size_t j = 0; j < cols_; j++) {
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < cols_; j++) {
       (*this)(i, j) += other(i, j);
     }
   }
@@ -154,16 +134,16 @@ void S21Matrix::SubMatrix(const S21Matrix& other) {
     throw std::invalid_argument("Not equal sizes");
   }
 
-  for (size_t i = 0; i < rows_; i++) {
-    for (size_t j = 0; j < cols_; j++) {
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < cols_; j++) {
       (*this)(i, j) -= other(i, j);
     }
   }
 }
 
 void S21Matrix::MulNumber(const double num) {
-  for (size_t i = 0; i < rows_; i++) {
-    for (size_t j = 0; j < cols_; j++) {
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < cols_; j++) {
       (*this)(i, j) *= num;
     }
   }
@@ -175,9 +155,9 @@ void S21Matrix::MulMatrix(const S21Matrix& other) {
   }
 
   S21Matrix tmp(rows_, other.cols_);
-  for (size_t i = 0; i < tmp.rows_; i++) {
-    for (size_t j = 0; j < tmp.cols_; j++) {
-      for (size_t k = 0; k < cols_; k++) {
+  for (int i = 0; i < tmp.rows_; i++) {
+    for (int j = 0; j < tmp.cols_; j++) {
+      for (int k = 0; k < cols_; k++) {
         tmp(i, j) += (*this)(i, k) * other(k, j);
       }
     }
@@ -187,8 +167,8 @@ void S21Matrix::MulMatrix(const S21Matrix& other) {
 
 S21Matrix S21Matrix::Transpose() {
   S21Matrix tmp(cols_, rows_);
-  for (size_t i = 0; i < cols_; i++) {
-    for (size_t j = 0; j < rows_; j++) {
+  for (int i = 0; i < cols_; i++) {
+    for (int j = 0; j < rows_; j++) {
       tmp(i, j) = (*this)(j, i);
     }
   }
@@ -204,8 +184,8 @@ S21Matrix S21Matrix::CalcComplements() {
   }
 
   S21Matrix tmp(rows_, cols_);
-  for (size_t i = 0; i < tmp.rows_; i++) {
-    for (size_t j = 0; j < tmp.cols_; j++) {
+  for (int i = 0; i < tmp.rows_; i++) {
+    for (int j = 0; j < tmp.cols_; j++) {
       tmp(i, j) = Complement(i, j);
     }
   }
@@ -298,7 +278,7 @@ S21Matrix operator*(double num, const S21Matrix& other) {
   return res;
 }
 
-bool S21Matrix::operator==(const S21Matrix& other) const noexcept {
+bool S21Matrix::operator==(const S21Matrix& other) const {
   return (*this).EqMatrix(other);
 }
 
@@ -309,8 +289,8 @@ S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
     cols_ = other.GetCols();
     Clear();
     matrix_ = new double[rows_ * cols_]();
-    for (size_t i = 0; i < rows_; i++) {
-      for (size_t j = 0; j < cols_; j++) {
+    for (int i = 0; i < rows_; i++) {
+      for (int j = 0; j < cols_; j++) {
         (*this)(i, j) = other(i, j);
       }
     }

@@ -6,20 +6,10 @@
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
-// #include <initializer_list>
 
 #define EPS 1e-7
 
 class S21Matrix {
- private:
-  int rows_, cols_;
-  double* matrix_;
-  // Вспомогательные приватные методы
-  void Clear();
-  double SimpleDet() const;
-  double Minor(int n, int m) const;
-  double Complement(int n, int m) const;
-
  public:
   // Конструкторы и деструктор
   S21Matrix();
@@ -30,16 +20,13 @@ class S21Matrix {
   ~S21Matrix();
 
   //  Геттеры и сеттеры
-  // double GetElement(int i, int j) const;
-  // void SetElement(int i, int j, double value);
   double GetRows() const;
   void SetRows(int row);
   double GetCols() const;
   void SetCols(int column);
 
   // Операции
-  void PrintMatrix() const;
-  bool EqMatrix(const S21Matrix& other) const noexcept;
+  bool EqMatrix(const S21Matrix& other) const;
   void SumMatrix(const S21Matrix& other);
   void SubMatrix(const S21Matrix& other);
   void MulNumber(const double num);
@@ -57,13 +44,23 @@ class S21Matrix {
   S21Matrix operator*(const S21Matrix& other) const;
   S21Matrix operator*(const double num) const;
   friend S21Matrix operator*(double num, const S21Matrix& other);
-  bool operator==(const S21Matrix& other) const noexcept;
+  bool operator==(const S21Matrix& other) const;
   S21Matrix& operator=(const S21Matrix& other);
   S21Matrix& operator=(S21Matrix&& other);
   S21Matrix& operator+=(const S21Matrix& other);
   S21Matrix& operator-=(const S21Matrix& other);
   S21Matrix& operator*=(const S21Matrix& other);
   S21Matrix& operator*=(const double num);
+
+ private:
+  int rows_, cols_;
+  double* matrix_;
+
+  // Вспомогательные приватные методы
+  void Clear();
+  double SimpleDet() const;
+  double Minor(int n, int m) const;
+  double Complement(int n, int m) const;
 };
 
 #endif  // _S21_MATRIX_OOP_H_

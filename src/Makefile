@@ -19,13 +19,10 @@ else
 	FLAGS_PLATFORM =-lgtest -lrt -lm -lpthread --coverage
 endif
 
-all : main
-
+all : test
 clean :
 	@echo "$(BLUE)------------------CLEAN------------------$(END)"
 	@rm -rf report test.info gcov f test main *.a *.o *.g* */*.o */*.a */*/*.o *.g* */*.g* */*/*.g*
-	
-# *.{a,o,dSYM,out,g*} 
 
 test : clean $(LIB).a $(TEST).o
 	@echo "$(BLUE)--------------RUNNING TESTS--------------$(END)"
@@ -55,13 +52,6 @@ gcov_report : clean $(TEST).o $(LIB).a
 	@open report/index.html 
 	@echo "$(BLUE)-----------------------------------------$(END)"
 
-# библиотека для отчета
-g$(LIB).a : $(LIB).cc
-	@echo "$(BLUE)--------------MATRIX LIBRARY-------------$(END)"
-	@$(CC) -g -c $^ -o $(PATH_TO_OBJ)/$(LIB).o
-	@ar rc $(PATH_TO_OBJ)/$@ $(PATH_TO_OBJ)/$(LIB).o
-	@ranlib $(PATH_TO_OBJ)/$@
-
 valgrind: clean test
 	@echo "$(BLUE)----------------VALGRIND-----------------$(END)"
 	@CK_FORK=no valgrind --trace-children=yes --track-fds=yes --track-origins=yes --leak-check=full --show-leak-kinds=all --verbose --log-file=valgrind.txt ./test
@@ -69,15 +59,9 @@ valgrind: clean test
 
 check: 
 	@echo "$(BLUE)------------------CHECK------------------$(END)"
-	@cp ../materials/linters/.clang-format .clang-format && cp ../materials/linters/.clang-format ../tests/.clang-format
-#	@clang-format -style=Google -i *.h *.c ../tests/*.c
-	@clang-format -style=Google -n *.h *.c ../tests/*.c
-	@rm .clang-format && rm ../tests/.clang-format
+	@cp ../materials/linters/.clang-format .clang-format && cp ../materials/linters/.clang-format Tests/.clang-format
+#	@clang-format -style=Google -i *.h *.cc Tests/*.cc
+	@clang-format -style=Google -n *.h *.cc Tests/*.cc
+	@rm .clang-format && rm Tests/.clang-format
 	@echo "$(BLUE)-----------------------------------------$(END)"
-
-main: clean main.o $(LIB).a
-	@$(CC) $(PATH_TO_OBJ)/main.o -L. $(PATH_TO_OBJ)/$(LIB).a -o main $(FLAGS) $(FLAGS_PLATFORM) 
-	@./main
-main.o: main.cc
-	@$(CC) -c $^ -o $(PATH_TO_OBJ)/$@ $(FLAGS) $(FLAGS_PLATFORM) 
 
